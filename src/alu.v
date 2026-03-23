@@ -20,12 +20,11 @@ module alu(
             4'd2:  out = rs1 & b;        // and
             4'd3:  out = rs1 | b;        // or
             4'd4:  out = rs1 ^ b;        // xor
-            4'd5:  out = ~(rs1 & b);     // nand
-            4'd6:  out = ~(rs1 | b);     // nor
-            4'd7:  out = rs1 << 4;       // shift left by 4
-            4'd8:  out = rs1 >> 4;       // shift right by 4
-//4'd9:  out = b >> 1;
-
+            4'd5:  out = rs1 << rs2[4:0];       // shift left by 4
+            4'd6:  out = rs1 >> rs2[4:0];       // shift right by 4 srl
+            4'd7: out=($signed(rs1)) >>> rs2[4:0]   ;       // SRA shift right arithmatic
+            4'd8: out=($signed(rs1)<$signed(rs2))? 32'd1:32'd0;       // SLT set less than
+            
             default: out = 32'd0;
 
         endcase
