@@ -1,8 +1,8 @@
 module RegisterFile 
 (
-input [4:0] rs1,
-input [4:0] rs2,
-input [4:0] rd,
+input [4:0] rs1_addr,
+input [4:0] rs2_addr,
+input [4:0] rd_addr,
 input clk,
 input [31:0] WriteData,
 input RegWrite,
@@ -15,13 +15,13 @@ output reg[31:0] ReadData2
 reg [31:0] registers [0:31];
 //combinational part
 always@(*)begin
-    ReadData1= registers[rs1];
-    ReadData2= registers[rs2];
+    ReadData1= registers[rs1_addr];
+    ReadData2= registers[rs2_addr];
 end
 //sequential part 
 always@(posedge clk)begin
-    if(RegWrite)begin
-        registers[rd] <= WriteData;
+    if(RegWrite && rd_addr != 5'd0)begin
+        registers[rd_addr] <= WriteData;
     end
 end
 
