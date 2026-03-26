@@ -1,33 +1,46 @@
-# RV32I Single-Cycle Processor
+# RV32I Single-Cycle Processor Implementation
 
-A fully functional single-cycle RISC-V RV32I processor 
-implemented in Verilog from scratch.
+A hardware implementation of a single-cycle RV32I RISC-V processor core written 
+in Verilog HDL.
 
-Built as a hands-on VLSI front-end learning project at 
-Vishwakarma Institute of Technology, Pune.
+## Architecture Overview
+This design implements a single-cycle datapath for the RV32I base integer 
+instruction set architecture. Each instruction completes execution within a 
+single clock cycle. The datapath consists of 8 submodules integrated through 
+a top-level module.
 
-## Architecture
-- Harvard architecture — separate instruction and data memory
-- Single-cycle execution — every instruction completes in one clock cycle
-- Supports R-type, I-type, S-type, B-type instructions
+## Module Hierarchy
+```
+riscTop (top level)
+├── pc_counter        - 32-bit program counter with synchronous reset and branch logic
+├── instructionMemory - Combinational instruction fetch unit
+├── decoder           - Instruction decoder and control signal generator
+├── immediateGen      - Immediate value extractor with sign extension (I, S, B type)
+├── AluControl        - ALU operation selector
+├── alu               - 32-bit ALU supporting 9 operations
+├── RegisterFile      - 32x32 register file with x0 hardwired to zero
+└── DataMemo          - 4KB word-addressed synchronous data memory
+```
 
-## Modules
-| Module | Status | Description |
-|---|---|---|
-| PC Register | Done | 32-bit program counter |
-| Instruction Memory | Done | Async read, ROM |
-| Decoder + Control | Done | Full control signal generation |
-| Immediate Generator | Done | I/S/B type sign extension |
-| Register File | Done | 32x32-bit, sync write async read |
-| ALU | Done | 10 operations, zero flag |
-| Data Memory | Done | 1024x32-bit, sync write async read |
-| ALU Control | In progress | |
-| Top-level integration | Pending | |
+## Datapath Signal Flow
+```
+PC → InstructionMemory → Decoder → RegisterFile → ALU → DataMemory → WriteBack → RegisterFile
+```
 
-## Tools
-- Verilog HDL
-- iverilog + GTKWave for simulation
+## Supported ISA
+| Type   | Instructions                          |
+|--------|---------------------------------------|
+| R-Type | ADD SUB AND OR XOR SLL SRL SRA SLT   |
+| I-Type | ADDI ANDI ORI XORI SLLI SRLI SRAI SLTI|
+| Load   | LW                                    |
+| Store  | SW                                    |
+| Branch | BEQ                                   |
 
-## How to simulate
-iverilog -o sim tb/DataMemoTB.v src/DataMemo.v
-vvp sim
+## Implementation Notes
+- Single-cycle design: CPI = 1
+- Word-aligned memory access using address bits [11:2]
+- x0 register hardwired to zero, write protected in hardware
+- Branch resolution: PC = PC + immediate when Branch=1 and zeroflag=1
+
+## Status
+Core datapath complete. Testbench under development.
