@@ -1,5 +1,5 @@
 module pc_counter
-(input [31:0]PcIn,
+(
 input clk,
 input zeroflag,
 input Branch,
