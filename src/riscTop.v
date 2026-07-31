@@ -42,7 +42,6 @@ pc_counter PC(
     .Branch(Branch),
     .zeroflag(zeroflag),
     .branchTarget(branchTarget),
-    .PcIn(PcNxt),
     .PcNxt(PcNxt)       // output connected
 );
 
