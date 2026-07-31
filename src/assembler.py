@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """
+Python code to write hex code for instructions.
+
 RV32I Assembler — generates program.mem for $readmemh
 Supported: R-type, I-type (ADDI/ORI/XORI/ANDI/SLTI/SLLI/SRLI/SRAI)
            LOAD (LW/LH/LB/LHU/LBU), STORE (SW/SH/SB)
@@ -11,6 +13,8 @@ Usage:
         python assembler.py
     Generates program.mem — place it next to your Verilog files.
 """
+
+from pathlib import Path
 
 # ─── WRITE YOUR PROGRAM HERE ─────────────────────────────────────────────────
 PROGRAM = [
@@ -199,6 +203,7 @@ def assemble_one(line, pc):
 def main():
     output = []
     errors = []
+    output_path = Path(__file__).with_name("program.mem")
 
     for i, line in enumerate(PROGRAM):
         stripped = line.strip()
@@ -219,7 +224,7 @@ def main():
         return
 
     # Write .mem file
-    with open("program.mem", "w") as f:
+    with open(output_path, "w") as f:
         for _, enc, _ in output:
             f.write(f"{enc:08x}\n")
 
@@ -229,7 +234,7 @@ def main():
     for pc, enc, asm in output:
         print(f"0x{pc:04x}   {enc:08x}   {asm}")
 
-    print(f"\n✓ program.mem written ({len(output)} instructions)")
+    print(f"\n✓ {output_path.name} written ({len(output)} instructions)")
 
 
 if __name__ == "__main__":
