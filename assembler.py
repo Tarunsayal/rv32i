@@ -18,36 +18,47 @@ from pathlib import Path
 
 # ─── WRITE YOUR PROGRAM HERE ─────────────────────────────────────────────────
 PROGRAM = [
-     # ADDI (already verified, included for completeness)
-    "addi x1, x0, 5",      # x1 = 5
+       "addi x1, x0, 5",      # x1 = 5
     "addi x2, x0, 3",      # x2 = 3
+    "addi x3, x0, 5",      # x3 = 5  (equal to x1)
 
-    # ORI
-    "ori  x3, x1, 6",      # x3 = 5 | 6 = 7
+    # BEQ — x1==x3, should jump over addi x4
+    "beq  x1, x3, 8",      # taken — skip next
+    "addi x4, x0, 99",     # must NOT execute
+    "addi x4, x0, 11",     # must execute → x4 = 11
 
-    # ANDI
-    "andi x4, x1, 6",      # x4 = 5 & 6 = 4
+    # BNE — x1!=x2, should jump over addi x5
+    "bne  x1, x2, 8",      # taken — skip next
+    "addi x5, x0, 99",     # must NOT execute
+    "addi x5, x0, 22",     # must execute → x5 = 22
 
-    # XORI
-    "xori x5, x1, 6",      # x5 = 5 ^ 6 = 3
+    # BLT — x2<x1, should jump over addi x6
+    "blt  x2, x1, 8",      # taken — skip next
+    "addi x6, x0, 99",     # must NOT execute
+    "addi x6, x0, 33",     # must execute → x6 = 33
 
-    # SLTI
-    "slti x6, x1, 9",      # x6 = (5 < 9) = 1
-    "slti x7, x1, 2",      # x7 = (5 < 2) = 0
+    # BGE — x1>=x2, should jump over addi x7
+    "bge  x1, x2, 8",      # taken — skip next
+    "addi x7, x0, 99",     # must NOT execute
+    "addi x7, x0, 44",     # must execute → x7 = 44
 
-    # SLTIU
-    "sltiu x8, x1, 9",     # x8 = (5 < 9) = 1 unsigned
+    # BLTU — x2<x1 unsigned, should jump over addi x8
+    "bltu x2, x1, 8",      # taken — skip next
+    "addi x8, x0, 99",     # must NOT execute
+    "addi x8, x0, 55",     # must execute → x8 = 55
 
-    # SLLI
-    "slli x9, x1, 2",      # x9 = 5 << 2 = 20
+    # BGEU — x1>=x2 unsigned, should jump over addi x9
+    "bgeu x1, x2, 8",      # taken — skip next
+    "addi x9, x0, 99",     # must NOT execute
+    "addi x9, x0, 66",     # must execute → x9 = 66
+    # BEQ not taken — x1 != x2
+"beq  x1, x2, 8",       # NOT taken
+"addi x10, x0, 77",     # MUST execute → x10 = 77
 
-    # SRLI
-    "srli x10, x1, 1",     # x10 = 5 >> 1 = 2
+# BNE not taken — x1 == x3
+"bne  x1, x3, 8",       # NOT taken  
+"addi x11, x0, 88",     # MUST execute → x11 = 88
 
-    # SRAI (arithmetic — sign bit preserved)
-    "addi x11, x0, -8",    # x11 = -8  (need negative number to see difference)
-    "srai x12, x11, 1",    # x12 = -8 >> 1 = -4  (sign extended)
-    "srli x13, x11, 1",    # x13 = -8 >> 1 = 2147483644 (just shifts, no sign)
 ]
 # ─────────────────────────────────────────────────────────────────────────────
 

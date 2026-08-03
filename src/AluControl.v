@@ -9,8 +9,14 @@ module AluControl(
 always @(*) begin
     case(ALUOp)
         2'b00: sel = 4'd0;  // LOAD/STORE always ADD
-        2'b01: sel = 4'd1;  // BRANCH always SUB
-
+        2'b01: case(funct3)
+            3'b000: sel = 4'd1;  // BRANCH  SUB
+            3'd1: sel = 4'd1;   // branch not equal  
+            3'd4: sel = 4'd8; //branch for less then 
+            3'd5: sel = 4'd8; //branch for greater then 
+            3'd6: sel = 4'd9; //(U)branch for less then unsigned
+            3'd7: sel = 4'd9; //(U)branch for greater then unsigned
+        endcase
         2'b10: case(funct3)
             3'b000: sel = (funct7 && !ALUSrc) ? 4'd1 : 4'd0; // SUB only R-type, ADDI always ADD
             3'b111: sel = 4'd2;  // AND/ANDI

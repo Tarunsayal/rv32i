@@ -38,6 +38,8 @@ assign WriteData = (MemtoReg) ? read_data : ALUResult;
 
 pc_counter PC(
     .clk(clk),
+    .aluResult(ALUResult),
+    .funct3(funct3),
     .reset(reset),
     .Branch(Branch),
     .zeroflag(zeroflag),
