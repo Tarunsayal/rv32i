@@ -88,8 +88,9 @@ alu ALUInst(
 AluControl AluControlInst(
     .ALUOp(ALUOp),
     .funct3(funct3),
-    .funct7(funct7),  
-    .sel(sel) // output connected
+    .funct7(funct7),
+    .ALUSrc(ALUSrc),     // ← added this after facing bug in alu control not doin add instead doing sub cuz pass instructio[30] which is part of immediate in i type 
+    .sel(sel)
 );
 
 registerFile registerFileInst   (

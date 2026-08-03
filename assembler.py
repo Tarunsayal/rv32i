@@ -18,11 +18,36 @@ from pathlib import Path
 
 # ─── WRITE YOUR PROGRAM HERE ─────────────────────────────────────────────────
 PROGRAM = [
-    "addi x1, x0, 5",
-    "addi x2, x0, 5",
-    "beq  x1, x2, 8",
-    "addi x3, x0, 99",
-    "addi x4, x0, 42",
+     # ADDI (already verified, included for completeness)
+    "addi x1, x0, 5",      # x1 = 5
+    "addi x2, x0, 3",      # x2 = 3
+
+    # ORI
+    "ori  x3, x1, 6",      # x3 = 5 | 6 = 7
+
+    # ANDI
+    "andi x4, x1, 6",      # x4 = 5 & 6 = 4
+
+    # XORI
+    "xori x5, x1, 6",      # x5 = 5 ^ 6 = 3
+
+    # SLTI
+    "slti x6, x1, 9",      # x6 = (5 < 9) = 1
+    "slti x7, x1, 2",      # x7 = (5 < 2) = 0
+
+    # SLTIU
+    "sltiu x8, x1, 9",     # x8 = (5 < 9) = 1 unsigned
+
+    # SLLI
+    "slli x9, x1, 2",      # x9 = 5 << 2 = 20
+
+    # SRLI
+    "srli x10, x1, 1",     # x10 = 5 >> 1 = 2
+
+    # SRAI (arithmetic — sign bit preserved)
+    "addi x11, x0, -8",    # x11 = -8  (need negative number to see difference)
+    "srai x12, x11, 1",    # x12 = -8 >> 1 = -4  (sign extended)
+    "srli x13, x11, 1",    # x13 = -8 >> 1 = 2147483644 (just shifts, no sign)
 ]
 # ─────────────────────────────────────────────────────────────────────────────
 

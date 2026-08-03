@@ -12,7 +12,10 @@ always@(posedge clk)begin
     if(reset)begin
         PcNxt<=32'hFFFFFFFC;
     end
-    else if (Branch == 1 && zeroflag == 1) begin
+    else if (Branch  && zeroflag ) begin
+        PcNxt <= branchTarget;
+    end
+    else if (Branch && !zeroflag ) begin
         PcNxt <= branchTarget;
     end
 else begin

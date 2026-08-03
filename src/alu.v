@@ -23,7 +23,14 @@ module alu(
             4'd5:  aluResult = rs1_Value << b[4:0];       // shift left by 4
             4'd6:  aluResult = rs1_Value >> b[4:0];      // shift right by 4 srl
             4'd7: aluResult=($signed(rs1_Value)) >>> b[4:0]   ;       // SRA shift right arithmatic
-            4'd8: aluResult=($signed(rs1_Value)<$signed(b))? 32'd1:32'd0;       // SLT set less than
+            4'd8: aluResult=($signed(rs1_Value)<$signed(b))? 1:0;       // SLT set less than
+            4'd9: aluResult=((rs1_Value)<(b))? 1:0;       // SLTU set less than(for unsigned numbers same as SLT)
+          //  4'd10: aluResult= ;
+          //  4'd11: aluResult= ;
+          //  4'd12: aluResult= ;
+          //  4'd13: aluResult= ;
+          //  4'd14: aluResult= ;
+          //  4'd15: aluResult= ;
             
             default: aluResult = 32'd0;
 
